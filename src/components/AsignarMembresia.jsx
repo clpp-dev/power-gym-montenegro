@@ -78,9 +78,9 @@ const AsignarMembresia = ({ isOpen, onClose, cliente }) => {
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="Asignar Membresía a Cliente">
-      <div className="mb-6 p-4 bg-blue-50 rounded-lg">
+      <div className="mb-6 p-4 bg-[#f2f2f2] rounded-xl shadow-[inset_4px_4px_8px_#a3b1c6,inset_-4px_-4px_8px_#ffffff]">
         <p className="text-sm text-gray-600">Seleccionar Cliente:</p>
-        <p className="font-semibold text-gray-800">{cliente.nombre}</p>
+        <p className="font-semibold text-gray-700">{cliente.nombre}</p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -92,10 +92,10 @@ const AsignarMembresia = ({ isOpen, onClose, cliente }) => {
             {membresias.map((membresia) => (
               <label
                 key={membresia.id}
-                className={`flex items-center p-4 border-2 rounded-lg cursor-pointer transition-all ${
+                className={`flex items-center p-4 rounded-xl cursor-pointer transition-all ${
                   formData.membresiaId === membresia.id
-                    ? 'border-blue-500 bg-blue-50'
-                    : 'border-gray-200 hover:border-blue-300'
+                    ? 'shadow-[inset_6px_6px_12px_#a3b1c6,inset_-6px_-6px_12px_#ffffff] bg-[#f2f2f2]'
+                    : 'shadow-[4px_4px_8px_#a3b1c6,-4px_-4px_8px_#ffffff] bg-[#f2f2f2] hover:shadow-[inset_4px_4px_8px_#a3b1c6,inset_-4px_-4px_8px_#ffffff]'
                 }`}
               >
                 <input
@@ -107,7 +107,7 @@ const AsignarMembresia = ({ isOpen, onClose, cliente }) => {
                   className="mr-3"
                 />
                 <div className="flex-1">
-                  <div className="font-semibold text-gray-800">{membresia.nombre}</div>
+                  <div className="font-semibold text-gray-700">{membresia.nombre}</div>
                   <div className="text-sm text-gray-600">{membresia.tipo}</div>
                 </div>
                 <div className="text-right">
@@ -121,7 +121,7 @@ const AsignarMembresia = ({ isOpen, onClose, cliente }) => {
 
         {membresiaSeleccionada && (
           <>
-            <div className="p-4 bg-gray-50 rounded-lg">
+            <div className="p-4 bg-[#f2f2f2] rounded-xl shadow-[inset_4px_4px_8px_#a3b1c6,inset_-4px_-4px_8px_#ffffff]">
               <p className="text-sm font-medium text-gray-700 mb-1">Período de Validez</p>
               <div className="grid grid-cols-2 gap-4">
                 <div>
@@ -131,7 +131,7 @@ const AsignarMembresia = ({ isOpen, onClose, cliente }) => {
                     value={formData.fechaInicio}
                     onChange={handleFechaInicioChange}
                     required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                    className="w-full px-3 py-2 bg-[#f2f2f2] border-0 rounded-xl text-sm shadow-[inset_4px_4px_8px_#a3b1c6,inset_-4px_-4px_8px_#ffffff] focus:shadow-[inset_6px_6px_12px_#a3b1c6,inset_-6px_-6px_12px_#ffffff] outline-none text-gray-700"
                   />
                 </div>
                 <div>
@@ -140,7 +140,7 @@ const AsignarMembresia = ({ isOpen, onClose, cliente }) => {
                     type="date"
                     value={formData.fechaFin}
                     readOnly
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-gray-100 cursor-not-allowed"
+                    className="w-full px-3 py-2 bg-[#f2f2f2] border-0 rounded-xl text-sm shadow-[inset_4px_4px_8px_#a3b1c6,inset_-4px_-4px_8px_#ffffff] cursor-not-allowed text-gray-700"
                   />
                 </div>
               </div>
@@ -152,14 +152,14 @@ const AsignarMembresia = ({ isOpen, onClose, cliente }) => {
           <button
             type="button"
             onClick={onClose}
-            className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+            className="flex-1 px-4 py-2 bg-[#f2f2f2] text-gray-700 rounded-xl shadow-[6px_6px_12px_#a3b1c6,-6px_-6px_12px_#ffffff] hover:shadow-[inset_6px_6px_12px_#a3b1c6,inset_-6px_-6px_12px_#ffffff] transition-all"
           >
             Cancelar
           </button>
           <button
             type="submit"
             disabled={!formData.membresiaId}
-            className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed"
+            className="flex-1 px-4 py-2 bg-[#f2f2f2] text-blue-600 font-semibold rounded-xl shadow-[6px_6px_12px_#a3b1c6,-6px_-6px_12px_#ffffff] hover:shadow-[inset_6px_6px_12px_#a3b1c6,inset_-6px_-6px_12px_#ffffff] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Asignar Membresía
           </button>

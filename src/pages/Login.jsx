@@ -28,15 +28,15 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-blue-50 via-gray-50 to-blue-100 flex items-center justify-center px-4">
+    <div className="min-h-screen bg-linear-to-br from-[#f2f2f2] to-[#f0f4f8] flex items-center justify-center px-4">
       <div className="max-w-md w-full">
-        <div className="bg-white rounded-2xl shadow-xl p-8">
+        <div className="bg-[#f2f2f2] rounded-3xl shadow-[20px_20px_40px_#a3b1c6,-20px_-20px_40px_#ffffff] p-8">
           {/* Logo y título */}
           <div className="flex flex-col items-center mb-6">
-            <div className="bg-blue-100 p-4 rounded-full mb-4">
+            <div className="bg-[#f2f2f2] p-5 rounded-full shadow-[inset_8px_8px_16px_#a3b1c6,inset_-8px_-8px_16px_#ffffff] mb-4">
               <Dumbbell className="h-12 w-12 text-blue-600" />
             </div>
-            <h1 className="text-2xl font-bold text-gray-800 mb-1">Gimnasio Gym Power</h1>
+            <h1 className="text-2xl font-bold text-gray-700 mb-1">Gimnasio Gym Power</h1>
             <p className="text-gray-500 text-sm">Bienvenido de nuevo</p>
           </div>
 
@@ -55,7 +55,7 @@ const Login = () => {
                   type="text"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                  className="block w-full pl-10 pr-3 py-3 bg-[#f2f2f2] border-0 rounded-xl shadow-[inset_4px_4px_8px_#a3b1c6,inset_-4px_-4px_8px_#ffffff] focus:shadow-[inset_6px_6px_12px_#a3b1c6,inset_-6px_-6px_12px_#ffffff] outline-none transition-all text-gray-700"
                   placeholder="Ingresa tu usuario"
                 />
               </div>
@@ -74,7 +74,7 @@ const Login = () => {
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                  className="block w-full pl-10 pr-3 py-3 bg-[#f2f2f2] border-0 rounded-xl shadow-[inset_4px_4px_8px_#a3b1c6,inset_-4px_-4px_8px_#ffffff] focus:shadow-[inset_6px_6px_12px_#a3b1c6,inset_-6px_-6px_12px_#ffffff] outline-none transition-all text-gray-700"
                   placeholder="Ingresa tu contraseña"
                 />
               </div>
@@ -82,7 +82,7 @@ const Login = () => {
 
             {/* Error */}
             {error && (
-              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
+              <div className="bg-[#f2f2f2] shadow-[inset_4px_4px_8px_#a3b1c6,inset_-4px_-4px_8px_#ffffff] text-red-600 px-4 py-3 rounded-xl text-sm">
                 {error}
               </div>
             )}
@@ -90,17 +90,17 @@ const Login = () => {
             {/* Botón Ingresar */}
             <button
               type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition-colors shadow-md hover:shadow-lg"
+              className="cursor-pointer w-full bg-[#f2f2f2] text-blue-600 font-semibold py-3 rounded-xl shadow-[6px_6px_12px_#a3b1c6,-6px_-6px_12px_#ffffff] hover:shadow-[inset_6px_6px_12px_#a3b1c6,inset_-6px_-6px_12px_#ffffff] active:shadow-[inset_8px_8px_16px_#a3b1c6,inset_-8px_-8px_16px_#ffffff] transition-all"
             >
               Ingresar
             </button>
 
             {/* Enlace olvidaste contraseña */}
-            <div className="text-center">
-              <a href="#" className="text-sm text-blue-600 hover:text-blue-700">
+            {/* <div className="text-center">
+              <a href="#" className="text-sm text-blue-600 hover:text-blue-700 font-medium">
                 ¿Olvidaste tu contraseña?
               </a>
-            </div>
+            </div> */}
           </form>
         </div>
       </div>

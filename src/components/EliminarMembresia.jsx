@@ -18,13 +18,13 @@ const EliminarMembresia = ({ isOpen, onClose, membresia }) => {
     <Modal isOpen={isOpen} onClose={onClose} title="">
       <div className="text-center space-y-6">
         <div className="flex justify-center">
-          <div className="bg-red-100 p-4 rounded-full">
+          <div className="bg-[#f2f2f2] p-5 rounded-full shadow-[inset_8px_8px_16px_#a3b1c6,inset_-8px_-8px_16px_#ffffff]">
             <X className="h-12 w-12 text-red-600" />
           </div>
         </div>
 
         <div>
-          <h3 className="text-xl font-bold text-gray-800 mb-2">
+          <h3 className="text-xl font-bold text-gray-700 mb-2">
             ¿Estás seguro?
           </h3>
           <p className="text-gray-600">
@@ -36,13 +36,13 @@ const EliminarMembresia = ({ isOpen, onClose, membresia }) => {
         <div className="flex space-x-3">
           <button
             onClick={onClose}
-            className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+            className="flex-1 px-4 py-2 bg-[#f2f2f2] text-gray-700 rounded-xl shadow-[6px_6px_12px_#a3b1c6,-6px_-6px_12px_#ffffff] hover:shadow-[inset_6px_6px_12px_#a3b1c6,inset_-6px_-6px_12px_#ffffff] transition-all"
           >
             Cancelar
           </button>
           <button
             onClick={handleEliminar}
-            className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+            className="flex-1 px-4 py-2 bg-[#f2f2f2] text-red-600 font-semibold rounded-xl shadow-[inset_6px_6px_12px_#a3b1c6,inset_-6px_-6px_12px_#ffffff] transition-all"
           >
             Confirmar Eliminación
           </button>

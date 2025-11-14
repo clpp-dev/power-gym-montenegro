@@ -28,10 +28,10 @@ const GestionMembresias = () => {
     <div className="space-y-6">
       {/* Encabezado */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <h1 className="text-3xl font-bold text-gray-800">Gestión de Membresías</h1>
+        <h1 className="text-3xl font-bold text-gray-700">Gestión de Membresías</h1>
         <button
           onClick={() => setModalCrear(true)}
-          className="flex items-center space-x-2 px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition-colors shadow-md"
+          className="cursor-pointer flex items-center space-x-2 px-4 py-2 bg-[#f2f2f2] text-yellow-600 font-medium rounded-xl shadow-[6px_6px_12px_#a3b1c6,-6px_-6px_12px_#ffffff] hover:shadow-[inset_6px_6px_12px_#a3b1c6,inset_-6px_-6px_12px_#ffffff] transition-all"
         >
           <Plus className="h-5 w-5" />
           <span>Crear Membresía</span>
@@ -39,7 +39,7 @@ const GestionMembresias = () => {
       </div>
 
       {/* Búsqueda */}
-      <div className="bg-white rounded-xl shadow-md p-4">
+      <div className="bg-[#f2f2f2] rounded-xl shadow-[12px_12px_24px_#a3b1c6,-12px_-12px_24px_#ffffff] p-4">
         <div className="relative">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
           <input
@@ -47,16 +47,16 @@ const GestionMembresias = () => {
             value={busqueda}
             onChange={(e) => setBusqueda(e.target.value)}
             placeholder="Buscar membresía por nombre o tipo..."
-            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none"
+            className="w-full pl-10 pr-4 py-2 bg-[#f2f2f2] text-gray-700 rounded-xl shadow-[inset_4px_4px_8px_#a3b1c6,inset_-4px_-4px_8px_#ffffff] focus:shadow-[inset_6px_6px_12px_#a3b1c6,inset_-6px_-6px_12px_#ffffff] outline-none transition-shadow"
           />
         </div>
       </div>
 
       {/* Tabla */}
-      <div className="bg-white rounded-xl shadow-md overflow-hidden">
+      <div className="bg-[#f2f2f2] rounded-xl shadow-[12px_12px_24px_#a3b1c6,-12px_-12px_24px_#ffffff] overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-gray-50">
+            <thead className="bg-[#f2f2f2]">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Nombre
@@ -78,21 +78,21 @@ const GestionMembresias = () => {
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="bg-[#f2f2f2] py-10">
               {membresiasFiltradas.map((membresia) => (
-                <tr key={membresia.id} className="hover:bg-gray-50">
+                <tr key={membresia.id} className="transition-shadow">
                   <td className="px-6 py-4">
-                    <div className="font-medium text-gray-900">{membresia.nombre}</div>
+                    <div className="font-medium text-gray-700">{membresia.nombre}</div>
                   </td>
                   <td className="px-6 py-4">
-                    <span className="px-3 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                    <span className="px-3 py-1 rounded-full text-xs font-medium bg-[#f2f2f2] text-purple-600 shadow-[inset_2px_2px_4px_#a3b1c6,inset_-2px_-2px_4px_#ffffff]">
                       {membresia.tipo}
                     </span>
                   </td>
-                  <td className="px-6 py-4 text-sm text-gray-900">
+                  <td className="px-6 py-4 text-sm text-gray-700">
                     {membresia.duracion} días
                   </td>
-                  <td className="px-6 py-4 text-sm font-semibold text-gray-900">
+                  <td className="px-6 py-4 text-sm font-semibold text-gray-700">
                     ${membresia.precio.toLocaleString()}
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-600 max-w-xs truncate">
@@ -102,14 +102,14 @@ const GestionMembresias = () => {
                     <div className="flex space-x-2">
                       <button
                         onClick={() => handleEditar(membresia)}
-                        className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                        className="cursor-pointer p-2 text-blue-600 bg-[#f2f2f2] rounded-xl shadow-[4px_4px_8px_#a3b1c6,-4px_-4px_8px_#ffffff] hover:shadow-[inset_4px_4px_8px_#a3b1c6,inset_-4px_-4px_8px_#ffffff] transition-all"
                         title="Editar"
                       >
                         <Edit className="h-4 w-4" />
                       </button>
                       <button
                         onClick={() => handleEliminar(membresia)}
-                        className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                        className="cursor-pointer p-2 text-red-600 bg-[#f2f2f2] rounded-xl shadow-[4px_4px_8px_#a3b1c6,-4px_-4px_8px_#ffffff] hover:shadow-[inset_4px_4px_8px_#a3b1c6,inset_-4px_-4px_8px_#ffffff] transition-all"
                         title="Eliminar"
                       >
                         <Trash2 className="h-4 w-4" />

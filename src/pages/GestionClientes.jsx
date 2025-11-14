@@ -56,10 +56,10 @@ const GestionClientes = () => {
     <div className="space-y-6">
       {/* Encabezado */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <h1 className="text-3xl font-bold text-gray-800">Gestión de Clientes</h1>
+        <h1 className="text-3xl font-bold text-gray-700">Gestión de Clientes</h1>
         <button
           onClick={() => setModalCrear(true)}
-          className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-md"
+          className="flex items-center space-x-2 px-4 py-2 bg-[#f2f2f2] text-blue-600 font-semibold rounded-xl shadow-[6px_6px_12px_#a3b1c6,-6px_-6px_12px_#ffffff] hover:shadow-[inset_6px_6px_12px_#a3b1c6,inset_-6px_-6px_12px_#ffffff] transition-all"
         >
           <Plus className="h-5 w-5" />
           <span>Crear Cliente</span>
@@ -67,7 +67,7 @@ const GestionClientes = () => {
       </div>
 
       {/* Búsqueda */}
-      <div className="bg-white rounded-xl shadow-md p-4">
+      <div className="bg-[#f2f2f2] rounded-2xl shadow-[8px_8px_16px_#a3b1c6,-8px_-8px_16px_#ffffff] p-4">
         <div className="relative">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
           <input
@@ -75,48 +75,48 @@ const GestionClientes = () => {
             value={busqueda}
             onChange={(e) => setBusqueda(e.target.value)}
             placeholder="Buscar por nombre, cédula o email..."
-            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+            className="w-full pl-10 pr-4 py-2 bg-[#f2f2f2] border-0 rounded-xl shadow-[inset_4px_4px_8px_#a3b1c6,inset_-4px_-4px_8px_#ffffff] focus:shadow-[inset_6px_6px_12px_#a3b1c6,inset_-6px_-6px_12px_#ffffff] outline-none text-gray-700"
           />
         </div>
       </div>
 
       {/* Tabla */}
-      <div className="bg-white rounded-xl shadow-md overflow-hidden">
+      <div className="bg-[#f2f2f2] rounded-2xl shadow-[12px_12px_24px_#a3b1c6,-12px_-12px_24px_#ffffff] overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-gray-50">
+            <thead className="bg-[#e9e9e9]">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
                   Nombre / Cédula
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
                   Email
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
                   Teléfono
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
                   Estado
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
                   Membresía
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
                   Acciones
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="bg-[#f2f2f2] divide-y divide-gray-300">
               {clientesActuales.map((cliente) => (
-                <tr key={cliente.id} className="hover:bg-gray-50">
+                <tr key={cliente.id} className="transition-all">
                   <td className="px-6 py-4">
-                    <div className="font-medium text-gray-900">{cliente.nombre}</div>
-                    <div className="text-sm text-gray-500">{cliente.cedula}</div>
+                    <div className="font-medium text-gray-700">{cliente.nombre}</div>
+                    <div className="text-sm text-gray-600">{cliente.cedula}</div>
                   </td>
-                  <td className="px-6 py-4 text-sm text-gray-900">
+                  <td className="px-6 py-4 text-sm text-gray-700">
                     {cliente.email}
                   </td>
-                  <td className="px-6 py-4 text-sm text-gray-900">
+                  <td className="px-6 py-4 text-sm text-gray-700">
                     {cliente.telefono}
                   </td>
                   <td className="px-6 py-4">
@@ -124,28 +124,54 @@ const GestionClientes = () => {
                       {cliente.estado}
                     </span>
                   </td>
-                  <td className="px-6 py-4 text-sm text-gray-900">
+                  <td className="px-6 py-4 text-sm text-gray-700">
                     {cliente.membresia ? cliente.membresia.nombre : '-'}
                   </td>
                   <td className="px-6 py-4">
                     <div className="flex space-x-2">
                       <button
                         onClick={() => handleEditar(cliente)}
-                        className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                        className="
+                          cursor-pointer
+                          p-2 
+                          text-blue-600 
+                          bg-[#f2f2f2] 
+                          rounded-lg 
+                          shadow-[4px_4px_8px_#a3b1c6,-4px_-4px_8px_#ffffff] 
+                          hover:shadow-[inset_4px_4px_8px_#a3b1c6,inset_-4px_-4px_8px_#ffffff]
+                          transition-all
+                        "
                         title="Editar"
                       >
                         <Edit className="h-4 w-4" />
                       </button>
                       <button
                         onClick={() => handleAsignarMembresia(cliente)}
-                        className="p-2 text-green-600 hover:bg-green-50 rounded-lg transition-colors"
+                        className="
+                          cursor-pointer
+                          p-2 
+                          text-green-600 
+                          bg-[#f2f2f2] 
+                          rounded-lg 
+                          shadow-[4px_4px_8px_#a3b1c6,-4px_-4px_8px_#ffffff] 
+                          hover:shadow-[inset_4px_4px_8px_#a3b1c6,inset_-4px_-4px_8px_#ffffff] transition-all
+                        "
                         title="Asignar Membresía"
                       >
                         <CreditCard className="h-4 w-4" />
                       </button>
                       <button
                         onClick={() => handleEliminar(cliente)}
-                        className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                        className="
+                          cursor-pointer
+                          p-2 
+                          text-red-600 
+                          bg-[#f2f2f2] 
+                          rounded-lg 
+                          shadow-[4px_4px_8px_#a3b1c6,-4px_-4px_8px_#ffffff] 
+                          hover:shadow-[inset_4px_4px_8px_#a3b1c6,inset_-4px_-4px_8px_#ffffff] 
+                          transition-all
+                        "
                         title="Eliminar"
                       >
                         <Trash2 className="h-4 w-4" />
@@ -160,11 +186,11 @@ const GestionClientes = () => {
 
         {/* Paginación */}
         {totalPaginas > 1 && (
-          <div className="bg-gray-50 px-6 py-4 flex items-center justify-between border-t">
+          <div className="bg-[#f2f2f2] px-6 py-4 flex items-center justify-between border-t border-gray-300">
             <button
               onClick={() => setPaginaActual(prev => Math.max(prev - 1, 1))}
               disabled={paginaActual === 1}
-              className="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-4 py-2 bg-[#f2f2f2] rounded-xl text-sm font-medium text-gray-700 shadow-[4px_4px_8px_#a3b1c6,-4px_-4px_8px_#ffffff] hover:shadow-[inset_4px_4px_8px_#a3b1c6,inset_-4px_-4px_8px_#ffffff] disabled:opacity-50 disabled:cursor-not-allowed transition-all"
             >
               Anterior
             </button>
@@ -173,10 +199,10 @@ const GestionClientes = () => {
                 <button
                   key={index + 1}
                   onClick={() => setPaginaActual(index + 1)}
-                  className={`px-3 py-1 rounded-lg text-sm font-medium ${
+                  className={`px-3 py-1 rounded-xl text-sm font-medium transition-all ${
                     paginaActual === index + 1
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-white text-gray-700 hover:bg-gray-100'
+                      ? 'shadow-[inset_4px_4px_8px_#a3b1c6,inset_-4px_-4px_8px_#ffffff] bg-[#f2f2f2] text-blue-600'
+                      : 'shadow-[4px_4px_8px_#a3b1c6,-4px_-4px_8px_#ffffff] bg-[#f2f2f2] text-gray-700 hover:shadow-[inset_4px_4px_8px_#a3b1c6,inset_-4px_-4px_8px_#ffffff]'
                   }`}
                 >
                   {index + 1}
@@ -186,7 +212,7 @@ const GestionClientes = () => {
             <button
               onClick={() => setPaginaActual(prev => Math.min(prev + 1, totalPaginas))}
               disabled={paginaActual === totalPaginas}
-              className="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-4 py-2 bg-[#f2f2f2] rounded-xl text-sm font-medium text-gray-700 shadow-[4px_4px_8px_#a3b1c6,-4px_-4px_8px_#ffffff] hover:shadow-[inset_4px_4px_8px_#a3b1c6,inset_-4px_-4px_8px_#ffffff] disabled:opacity-50 disabled:cursor-not-allowed transition-all"
             >
               Siguiente
             </button>
