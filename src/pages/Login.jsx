@@ -36,7 +36,7 @@ const Login = () => {
             <div className="bg-[#f2f2f2] p-5 rounded-full shadow-[inset_8px_8px_16px_#a3b1c6,inset_-8px_-8px_16px_#ffffff] mb-4">
               <Dumbbell className="h-12 w-12 text-blue-600" />
             </div>
-            <h1 className="text-2xl font-bold text-gray-700 mb-1">Gimnasio Gym Power</h1>
+            <h1 className="text-2xl font-bold text-gray-700 mb-1">Power Gym montenegro</h1>
             <p className="text-gray-500 text-sm">Bienvenido de nuevo</p>
           </div>
 
