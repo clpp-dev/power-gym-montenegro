@@ -22,6 +22,7 @@ const GestionClientes = () => {
   const indexUltimo = paginaActual * clientesPorPagina;
   const indexPrimero = indexUltimo - clientesPorPagina;
   const clientesActuales = clientesFiltrados.slice(indexPrimero, indexUltimo);
+  console.log("🚀 ~ GestionClientes ~ clientesActuales:", clientesActuales)
   const totalPaginas = Math.ceil(clientesFiltrados.length / clientesPorPagina);
 
   const getEstadoColor = (estado) => {
@@ -97,7 +98,10 @@ const GestionClientes = () => {
             <thead className="bg-[#e9e9e9]">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
-                  Nombre / Cédula
+                  Nombre
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
+                  Cédula
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
                   Email
@@ -112,6 +116,12 @@ const GestionClientes = () => {
                   Membresía
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
+                  Fecha Inicio
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
+                  Fecha Fin
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
                   Acciones
                 </th>
               </tr>
@@ -121,6 +131,8 @@ const GestionClientes = () => {
                 <tr key={cliente.id} className="transition-all">
                   <td className="px-6 py-4">
                     <div className="font-medium text-gray-700">{cliente.nombre}</div>
+                  </td>
+                  <td className="px-6 py-4">
                     <div className="text-sm text-gray-600">{cliente.cedula}</div>
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-700">
@@ -136,6 +148,16 @@ const GestionClientes = () => {
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-700">
                     {cliente.membresia ? cliente.membresia.nombre : '-'}
+                  </td>
+                  <td className="px-6 py-4 text-sm text-gray-700">
+                    {cliente.membresia && cliente.membresia.fechaInicio 
+                      ? new Date(cliente.membresia.fechaInicio).toLocaleDateString('es-ES')
+                      : '-'}
+                  </td>
+                  <td className="px-6 py-4 text-sm text-gray-700">
+                    {cliente.membresia && cliente.membresia.fechaFin 
+                      ? new Date(cliente.membresia.fechaFin).toLocaleDateString('es-ES')
+                      : '-'}
                   </td>
                   <td className="px-6 py-4">
                     <div className="flex space-x-2">
