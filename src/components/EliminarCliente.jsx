@@ -1,14 +1,20 @@
 import Modal from './Modal';
 import { Trash2 } from 'lucide-react';
 import { useClientes } from '../context/ClientesContext';
+import { toast } from 'sonner';
 
 const EliminarCliente = ({ isOpen, onClose, cliente }) => {
   const { eliminarCliente } = useClientes();
 
   const handleEliminar = () => {
     if (cliente) {
-      eliminarCliente(cliente.id);
-      onClose();
+      try {
+        eliminarCliente(cliente.id);
+        toast.success(`Cliente ${cliente.nombre} eliminado exitosamente`);
+        onClose();
+      } catch (error) {
+        toast.error('Error al eliminar el cliente');
+      }
     }
   };
 

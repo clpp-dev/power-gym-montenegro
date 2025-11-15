@@ -2,28 +2,28 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Dumbbell, User, Lock } from 'lucide-react';
+import { toast } from 'sonner';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
   const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setError('');
 
     if (!username || !password) {
-      setError('Por favor ingresa usuario y contraseña');
+      toast.error('Por favor ingresa usuario y contraseña');
       return;
     }
 
     const result = login(username, password);
     if (result.success) {
+      toast.success('Inicio de sesión exitoso');
       navigate('/dashboard');
     } else {
-      setError(result.message);
+      toast.error(result.message);
     }
   };
 
@@ -79,13 +79,6 @@ const Login = () => {
                 />
               </div>
             </div>
-
-            {/* Error */}
-            {error && (
-              <div className="bg-[#f2f2f2] shadow-[inset_4px_4px_8px_#a3b1c6,inset_-4px_-4px_8px_#ffffff] text-red-600 px-4 py-3 rounded-xl text-sm">
-                {error}
-              </div>
-            )}
 
             {/* Botón Ingresar */}
             <button

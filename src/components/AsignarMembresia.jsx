@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import Modal from './Modal';
 import { useClientes } from '../context/ClientesContext';
 import { useMembresias } from '../context/MembresiasContext';
+import { toast } from 'sonner';
 
 const AsignarMembresia = ({ isOpen, onClose, cliente }) => {
   const { asignarMembresia } = useClientes();
@@ -64,13 +65,18 @@ const AsignarMembresia = ({ isOpen, onClose, cliente }) => {
     e.preventDefault();
     
     if (cliente && membresiaSeleccionada) {
-      asignarMembresia(
-        cliente.id,
-        membresiaSeleccionada,
-        formData.fechaInicio,
-        formData.fechaFin
-      );
-      onClose();
+      try {
+        asignarMembresia(
+          cliente.id,
+          membresiaSeleccionada,
+          formData.fechaInicio,
+          formData.fechaFin
+        );
+        toast.success(`Membresía ${membresiaSeleccionada.nombre} asignada a ${cliente.nombre}`);
+        onClose();
+      } catch (error) {
+        toast.error('Error al asignar la membresía');
+      }
     }
   };
 

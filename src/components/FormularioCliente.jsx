@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import Modal from './Modal';
 import { useClientes } from '../context/ClientesContext';
+import { toast } from 'sonner';
 
 const FormularioCliente = ({ isOpen, onClose, cliente }) => {
   const { agregarCliente, actualizarCliente } = useClientes();
@@ -42,18 +43,23 @@ const FormularioCliente = ({ isOpen, onClose, cliente }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    if (cliente) {
-      actualizarCliente(cliente.id, formData);
-    } else {
-      agregarCliente({
-        ...formData,
-        correoElectronico: formData.email,
-        estado: 'Inactivo',
-        membresia: null
-      });
+    try {
+      if (cliente) {
+        actualizarCliente(cliente.id, formData);
+        toast.success(`Cliente ${formData.nombre} actualizado exitosamente`);
+      } else {
+        agregarCliente({
+          ...formData,
+          correoElectronico: formData.email,
+          estado: 'Inactivo',
+          membresia: null
+        });
+        toast.success(`Cliente ${formData.nombre} creado exitosamente`);
+      }
+      onClose();
+    } catch (error) {
+      toast.error(`Error al ${cliente ? 'actualizar' : 'crear'} el cliente`);
     }
-    
-    onClose();
   };
 
   return (

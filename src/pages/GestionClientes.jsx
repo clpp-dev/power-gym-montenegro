@@ -57,13 +57,23 @@ const GestionClientes = () => {
       {/* Encabezado */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <h1 className="text-3xl font-bold text-gray-700">Gestión de Clientes</h1>
-        <button
-          onClick={() => setModalCrear(true)}
-          className="flex items-center space-x-2 px-4 py-2 bg-[#f2f2f2] text-blue-600 font-semibold rounded-xl shadow-[6px_6px_12px_#a3b1c6,-6px_-6px_12px_#ffffff] hover:shadow-[inset_6px_6px_12px_#a3b1c6,inset_-6px_-6px_12px_#ffffff] transition-all"
-        >
-          <Plus className="h-5 w-5" />
-          <span>Crear Cliente</span>
-        </button>
+
+        <div className="flex space-x-4">
+          <button
+            onClick={() => setModalCrear(true)}
+            className="flex items-center space-x-2 px-4 py-2 bg-[#f2f2f2] text-blue-600 font-semibold rounded-xl shadow-[6px_6px_12px_#a3b1c6,-6px_-6px_12px_#ffffff] hover:shadow-[inset_6px_6px_12px_#a3b1c6,inset_-6px_-6px_12px_#ffffff] transition-all"
+          >
+            <Plus className="h-5 w-5" />
+            <span>Crear Cliente</span>
+          </button>
+          <button
+            onClick={() => setModalCrear(true)}
+            className="flex items-center space-x-2 px-4 py-2 bg-[#f2f2f2] text-blue-600 font-semibold rounded-xl shadow-[6px_6px_12px_#a3b1c6,-6px_-6px_12px_#ffffff] hover:shadow-[inset_6px_6px_12px_#a3b1c6,inset_-6px_-6px_12px_#ffffff] transition-all"
+          >
+            <Plus className="h-5 w-5" />
+            <span>Asignar membresía</span>
+          </button>
+        </div>
       </div>
 
       {/* Búsqueda */}

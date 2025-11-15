@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { Toaster } from 'sonner';
 import { AuthProvider } from './context/AuthContext';
 import { ClientesProvider } from './context/ClientesContext';
 import { MembresiasProvider } from './context/MembresiasContext';
@@ -15,6 +16,21 @@ function App() {
       <ClientesProvider>
         <MembresiasProvider>
           <BrowserRouter>
+            <Toaster 
+              position="bottom-right" 
+              expand={false}
+              richColors
+              closeButton
+              toastOptions={{
+                style: {
+                  background: '#e0e5ec',
+                  border: 'none',
+                  boxShadow: '6px 6px 12px #a3b1c6, -6px -6px 12px #ffffff',
+                  color: '#374151',
+                  borderRadius: '12px',
+                },
+              }}
+            />
             <Routes>
               {/* Ruta pública */}
               <Route path="/login" element={<Login />} />

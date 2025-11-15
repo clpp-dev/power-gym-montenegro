@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import Modal from './Modal';
 import { useMembresias } from '../context/MembresiasContext';
+import { toast } from 'sonner';
 
 const FormularioMembresia = ({ isOpen, onClose, membresia }) => {
   const { agregarMembresia, actualizarMembresia } = useMembresias();
@@ -43,13 +44,18 @@ const FormularioMembresia = ({ isOpen, onClose, membresia }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    if (membresia) {
-      actualizarMembresia(membresia.id, formData);
-    } else {
-      agregarMembresia(formData);
+    try {
+      if (membresia) {
+        actualizarMembresia(membresia.id, formData);
+        toast.success(`Membresía ${formData.nombre} actualizada exitosamente`);
+      } else {
+        agregarMembresia(formData);
+        toast.success(`Membresía ${formData.nombre} creada exitosamente`);
+      }
+      onClose();
+    } catch (error) {
+      toast.error(`Error al ${membresia ? 'actualizar' : 'crear'} la membresía`);
     }
-    
-    onClose();
   };
 
   return (

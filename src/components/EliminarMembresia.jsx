@@ -1,14 +1,20 @@
 import Modal from './Modal';
 import { X } from 'lucide-react';
 import { useMembresias } from '../context/MembresiasContext';
+import { toast } from 'sonner';
 
 const EliminarMembresia = ({ isOpen, onClose, membresia }) => {
   const { eliminarMembresia } = useMembresias();
 
   const handleEliminar = () => {
     if (membresia) {
-      eliminarMembresia(membresia.id);
-      onClose();
+      try {
+        eliminarMembresia(membresia.id);
+        toast.success(`Membresía ${membresia.nombre} eliminada exitosamente`);
+        onClose();
+      } catch (error) {
+        toast.error('Error al eliminar la membresía');
+      }
     }
   };
 
