@@ -3,6 +3,7 @@ export const adminUser = {
   username: 'admin',
   password: 'admin123',
   nombre: 'Admin',
+  email:"admin@powergym.com",
   rol: 'admin'
 };
 
