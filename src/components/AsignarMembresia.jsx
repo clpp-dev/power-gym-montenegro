@@ -5,7 +5,7 @@ import { useMembresias } from '../context/MembresiasContext';
 import { toast } from 'sonner';
 
 const AsignarMembresia = ({ isOpen, onClose, cliente }) => {
-  const { asignarMembresia } = useClientes();
+  const { asignarMembresia, loading } = useClientes();
   const { membresias } = useMembresias();
   const [formData, setFormData] = useState({
     membresiaId: '',
@@ -27,7 +27,7 @@ const AsignarMembresia = ({ isOpen, onClose, cliente }) => {
 
   const handleMembresiaChange = (e) => {
     const membresiaId = e.target.value;
-    const membresia = membresias.find(m => m.id === membresiaId);
+    const membresia = membresias.find(m => (m.id || m._id) === membresiaId);
     
     setFormData({ ...formData, membresiaId });
     setMembresiaSeleccionada(membresia);
@@ -61,21 +61,26 @@ const AsignarMembresia = ({ isOpen, onClose, cliente }) => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     if (cliente && membresiaSeleccionada) {
       try {
-        asignarMembresia(
-          cliente.id,
+        const resultado = await asignarMembresia(
+          cliente.id || cliente._id,
           membresiaSeleccionada,
           formData.fechaInicio,
           formData.fechaFin
         );
-        toast.success(`Membresía ${membresiaSeleccionada.nombre} asignada a ${cliente.nombre}`);
-        onClose();
+        if (resultado) {
+          toast.success(`Membresía ${membresiaSeleccionada.nombre} asignada a ${cliente.nombre}`);
+          onClose();
+        } else {
+          toast.error('Error al asignar la membresía');
+        }
       } catch (error) {
         toast.error('Error al asignar la membresía');
+        console.error('Error:', error);
       }
     }
   };
@@ -97,9 +102,9 @@ const AsignarMembresia = ({ isOpen, onClose, cliente }) => {
           <div className="grid grid-cols-1 gap-3">
             {membresias.map((membresia) => (
               <label
-                key={membresia.id}
+                key={membresia.id || membresia._id}
                 className={`flex items-center p-4 rounded-xl cursor-pointer transition-all ${
-                  formData.membresiaId === membresia.id
+                  formData.membresiaId === (membresia.id || membresia._id)
                     ? 'shadow-[inset_6px_6px_12px_#a3b1c6,inset_-6px_-6px_12px_#ffffff] bg-[#f2f2f2]'
                     : 'shadow-[4px_4px_8px_#a3b1c6,-4px_-4px_8px_#ffffff] bg-[#f2f2f2] hover:shadow-[inset_4px_4px_8px_#a3b1c6,inset_-4px_-4px_8px_#ffffff]'
                 }`}
@@ -107,8 +112,8 @@ const AsignarMembresia = ({ isOpen, onClose, cliente }) => {
                 <input
                   type="radio"
                   name="membresia"
-                  value={membresia.id}
-                  checked={formData.membresiaId === membresia.id}
+                  value={membresia.id || membresia._id}
+                  checked={formData.membresiaId === (membresia.id || membresia._id)}
                   onChange={handleMembresiaChange}
                   className="mr-3"
                 />
@@ -117,7 +122,7 @@ const AsignarMembresia = ({ isOpen, onClose, cliente }) => {
                   <div className="text-sm text-gray-600">{membresia.tipo}</div>
                 </div>
                 <div className="text-right">
-                  <div className="font-bold text-blue-600">${membresia.precio.toLocaleString()}</div>
+                  <div className="font-bold text-blue-600">${membresia.precio?.toLocaleString()}</div>
                   <div className="text-xs text-gray-500">{membresia.duracion} días</div>
                 </div>
               </label>
@@ -164,10 +169,10 @@ const AsignarMembresia = ({ isOpen, onClose, cliente }) => {
           </button>
           <button
             type="submit"
-            disabled={!formData.membresiaId}
+            disabled={!formData.membresiaId || loading}
             className="flex-1 px-4 py-2 bg-[#f2f2f2] text-blue-600 font-semibold rounded-xl shadow-[6px_6px_12px_#a3b1c6,-6px_-6px_12px_#ffffff] hover:shadow-[inset_6px_6px_12px_#a3b1c6,inset_-6px_-6px_12px_#ffffff] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Asignar Membresía
+            {loading ? 'Asignando...' : 'Asignar Membresía'}
           </button>
         </div>
       </form>

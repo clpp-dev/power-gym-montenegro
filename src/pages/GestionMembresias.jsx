@@ -80,7 +80,7 @@ const GestionMembresias = () => {
             </thead>
             <tbody className="bg-[#f2f2f2] py-10">
               {membresiasFiltradas.map((membresia) => (
-                <tr key={membresia.id} className="transition-shadow">
+                <tr key={membresia.id || membresia._id} className="transition-shadow">
                   <td className="px-6 py-4">
                     <div className="font-medium text-gray-700">{membresia.nombre}</div>
                   </td>
@@ -93,7 +93,7 @@ const GestionMembresias = () => {
                     {membresia.duracion} días
                   </td>
                   <td className="px-6 py-4 text-sm font-semibold text-gray-700">
-                    ${membresia.precio.toLocaleString()}
+                    ${membresia.precio?.toLocaleString()}
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-600 max-w-xs truncate">
                     {membresia.descripcion}

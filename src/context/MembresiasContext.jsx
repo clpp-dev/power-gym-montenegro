@@ -1,49 +1,107 @@
 import { createContext, useState, useContext, useEffect } from 'react';
-import { initialMembresias } from '../data/mockData';
+import { useFetch } from '../hooks/useFetch';
 
 const MembresiasContext = createContext();
 
 export const MembresiasProvider = ({ children }) => {
   const [membresias, setMembresias] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  
+  const { 
+    fetchData, 
+    postData, 
+    putData, 
+    deleteData 
+  } = useFetch('/membresias', { autoFetch: false });
 
+  // Cargar membresías al montar el componente
   useEffect(() => {
-    // Cargar membresías desde localStorage o usar datos iniciales
-    const storedMembresias = localStorage.getItem('membresias');
-    if (storedMembresias) {
-      setMembresias(JSON.parse(storedMembresias));
-    } else {
-      setMembresias(initialMembresias);
-      localStorage.setItem('membresias', JSON.stringify(initialMembresias));
-    }
+    cargarMembresias();
   }, []);
 
-  const saveToLocalStorage = (data) => {
-    localStorage.setItem('membresias', JSON.stringify(data));
+  const cargarMembresias = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await fetchData();
+      if (data) {
+        // La API retorna las membresías con _id, las mapeamos a id para compatibilidad
+        const membresiasMapeadas = data.map(membresia => ({
+          ...membresia,
+          id: membresia._id || membresia.id
+        }));
+        setMembresias(membresiasMapeadas);
+      }
+    } catch (err) {
+      setError(err.message);
+      console.error('Error al cargar membresías:', err);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const agregarMembresia = (membresia) => {
-    const nuevaMembresia = {
-      ...membresia,
-      id: Date.now().toString()
-    };
-    const nuevasMembresias = [...membresias, nuevaMembresia];
-    setMembresias(nuevasMembresias);
-    saveToLocalStorage(nuevasMembresias);
-    return nuevaMembresia;
+  const agregarMembresia = async (membresia) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const resultado = await postData(membresia);
+      if (resultado.success) {
+        await cargarMembresias(); // Recargar la lista
+        return resultado.data;
+      } else {
+        setError(resultado.error);
+        return null;
+      }
+    } catch (err) {
+      setError(err.message);
+      console.error('Error al agregar membresía:', err);
+      return null;
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const actualizarMembresia = (id, membresiaActualizada) => {
-    const nuevasMembresias = membresias.map(membresia =>
-      membresia.id === id ? { ...membresia, ...membresiaActualizada } : membresia
-    );
-    setMembresias(nuevasMembresias);
-    saveToLocalStorage(nuevasMembresias);
+  const actualizarMembresia = async (id, membresiaActualizada) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const resultado = await putData(id, membresiaActualizada);
+      if (resultado.success) {
+        await cargarMembresias(); // Recargar la lista
+        return resultado.data;
+      } else {
+        setError(resultado.error);
+        return null;
+      }
+    } catch (err) {
+      setError(err.message);
+      console.error('Error al actualizar membresía:', err);
+      return null;
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const eliminarMembresia = (id) => {
-    const nuevasMembresias = membresias.filter(membresia => membresia.id !== id);
-    setMembresias(nuevasMembresias);
-    saveToLocalStorage(nuevasMembresias);
+  const eliminarMembresia = async (id) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const resultado = await deleteData(id);
+      if (resultado.success) {
+        await cargarMembresias(); // Recargar la lista
+        return true;
+      } else {
+        setError(resultado.error);
+        return false;
+      }
+    } catch (err) {
+      setError(err.message);
+      console.error('Error al eliminar membresía:', err);
+      return false;
+    } finally {
+      setLoading(false);
+    }
   };
 
   const buscarMembresias = (termino) => {
@@ -59,10 +117,13 @@ export const MembresiasProvider = ({ children }) => {
     <MembresiasContext.Provider
       value={{
         membresias,
+        loading,
+        error,
         agregarMembresia,
         actualizarMembresia,
         eliminarMembresia,
-        buscarMembresias
+        buscarMembresias,
+        cargarMembresias
       }}
     >
       {children}

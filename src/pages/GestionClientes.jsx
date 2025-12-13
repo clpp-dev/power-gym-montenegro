@@ -67,13 +67,13 @@ const GestionClientes = () => {
             <Plus className="h-5 w-5" />
             <span>Crear Cliente</span>
           </button>
-          <button
+          {/* <button
             onClick={() => setModalCrear(true)}
             className="flex items-center space-x-2 px-4 py-2 bg-[#f2f2f2] text-blue-600 font-semibold rounded-xl shadow-[6px_6px_12px_#a3b1c6,-6px_-6px_12px_#ffffff] hover:shadow-[inset_6px_6px_12px_#a3b1c6,inset_-6px_-6px_12px_#ffffff] transition-all"
           >
             <Plus className="h-5 w-5" />
             <span>Asignar membresía</span>
-          </button>
+          </button> */}
         </div>
       </div>
 
@@ -128,9 +128,11 @@ const GestionClientes = () => {
             </thead>
             <tbody className="bg-[#f2f2f2] divide-y divide-gray-300">
               {clientesActuales.map((cliente) => (
-                <tr key={cliente.id} className="transition-all">
+                <tr key={cliente.id || cliente._id} className="transition-all">
                   <td className="px-6 py-4">
-                    <div className="font-medium text-gray-700">{cliente.nombre}</div>
+                    <div className="font-medium text-gray-700">
+                      {cliente.nombre} {cliente.apellido || ''}
+                    </div>
                   </td>
                   <td className="px-6 py-4">
                     <div className="text-sm text-gray-600">{cliente.cedula}</div>
@@ -147,16 +149,16 @@ const GestionClientes = () => {
                     </span>
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-700">
-                    {cliente.membresia ? cliente.membresia.nombre : '-'}
+                    {cliente.membresia?.nombre || '-'}
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-700">
-                    {cliente.membresia && cliente.membresia.fechaInicio 
-                      ? new Date(cliente.membresia.fechaInicio).toLocaleDateString('es-ES')
+                    {cliente.fechaInicioMembresia
+                      ? new Date(cliente.fechaInicioMembresia).toLocaleDateString('es-ES')
                       : '-'}
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-700">
-                    {cliente.membresia && cliente.membresia.fechaFin 
-                      ? new Date(cliente.membresia.fechaFin).toLocaleDateString('es-ES')
+                    {cliente.fechaFinMembresia
+                      ? new Date(cliente.fechaFinMembresia).toLocaleDateString('es-ES')
                       : '-'}
                   </td>
                   <td className="px-6 py-4">

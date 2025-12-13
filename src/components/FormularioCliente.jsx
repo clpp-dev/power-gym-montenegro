@@ -4,31 +4,37 @@ import { useClientes } from '../context/ClientesContext';
 import { toast } from 'sonner';
 
 const FormularioCliente = ({ isOpen, onClose, cliente }) => {
-  const { agregarCliente, actualizarCliente } = useClientes();
+  const { agregarCliente, actualizarCliente, loading } = useClientes();
   const [formData, setFormData] = useState({
     nombre: '',
+    apellido: '',
     cedula: '',
     email: '',
     telefono: '',
-    fechaIngreso: new Date().toISOString().split('T')[0]
+    fechaNacimiento: '',
+    direccion: ''
   });
 
   useEffect(() => {
     if (cliente) {
       setFormData({
-        nombre: cliente.nombre,
-        cedula: cliente.cedula,
-        email: cliente.email,
-        telefono: cliente.telefono,
-        fechaIngreso: cliente.fechaIngreso
+        nombre: cliente.nombre || '',
+        apellido: cliente.apellido || '',
+        cedula: cliente.cedula || '',
+        email: cliente.email || '',
+        telefono: cliente.telefono || '',
+        fechaNacimiento: cliente.fechaNacimiento ? cliente.fechaNacimiento.split('T')[0] : '',
+        direccion: cliente.direccion || ''
       });
     } else {
       setFormData({
         nombre: '',
+        apellido: '',
         cedula: '',
         email: '',
         telefono: '',
-        fechaIngreso: new Date().toISOString().split('T')[0]
+        fechaNacimiento: '',
+        direccion: ''
       });
     }
   }, [cliente, isOpen]);
@@ -40,25 +46,45 @@ const FormularioCliente = ({ isOpen, onClose, cliente }) => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     try {
+      // Preparar datos según el formato de la API
+      const datosCliente = {
+        nombre: formData.nombre,
+        apellido: formData.apellido,
+        cedula: formData.cedula,
+        email: formData.email,
+        telefono: formData.telefono,
+        fechaNacimiento: formData.fechaNacimiento,
+        direccion: formData.direccion,
+        documento: {
+          tipo: 'Cédula',
+          numero: formData.cedula
+        }
+      };
+
       if (cliente) {
-        actualizarCliente(cliente.id, formData);
-        toast.success(`Cliente ${formData.nombre} actualizado exitosamente`);
+        const resultado = await actualizarCliente(cliente.id || cliente._id, datosCliente);
+        if (resultado) {
+          toast.success(`Cliente ${formData.nombre} actualizado exitosamente`);
+          onClose();
+        } else {
+          toast.error('Error al actualizar el cliente');
+        }
       } else {
-        agregarCliente({
-          ...formData,
-          correoElectronico: formData.email,
-          estado: 'Inactivo',
-          membresia: null
-        });
-        toast.success(`Cliente ${formData.nombre} creado exitosamente`);
+        const resultado = await agregarCliente(datosCliente);
+        if (resultado) {
+          toast.success(`Cliente ${formData.nombre} creado exitosamente`);
+          onClose();
+        } else {
+          toast.error('Error al crear el cliente');
+        }
       }
-      onClose();
     } catch (error) {
       toast.error(`Error al ${cliente ? 'actualizar' : 'crear'} el cliente`);
+      console.error('Error:', error);
     }
   };
 
@@ -69,19 +95,36 @@ const FormularioCliente = ({ isOpen, onClose, cliente }) => {
       title={cliente ? 'Editar Cliente' : 'Crear Nuevo Cliente'}
     >
       <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Nombre Completo
-          </label>
-          <input
-            type="text"
-            name="nombre"
-            value={formData.nombre}
-            onChange={handleChange}
-            required
-            className="w-full px-3 py-2 bg-[#f2f2f2] border-0 rounded-xl shadow-[inset_4px_4px_8px_#a3b1c6,inset_-4px_-4px_8px_#ffffff] focus:shadow-[inset_6px_6px_12px_#a3b1c6,inset_-6px_-6px_12px_#ffffff] outline-none text-gray-700"
-            placeholder="Ingrese el nombre completo"
-          />
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Nombre
+            </label>
+            <input
+              type="text"
+              name="nombre"
+              value={formData.nombre}
+              onChange={handleChange}
+              required
+              className="w-full px-3 py-2 bg-[#f2f2f2] border-0 rounded-xl shadow-[inset_4px_4px_8px_#a3b1c6,inset_-4px_-4px_8px_#ffffff] focus:shadow-[inset_6px_6px_12px_#a3b1c6,inset_-6px_-6px_12px_#ffffff] outline-none text-gray-700"
+              placeholder="Nombre"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Apellido
+            </label>
+            <input
+              type="text"
+              name="apellido"
+              value={formData.apellido}
+              onChange={handleChange}
+              required
+              className="w-full px-3 py-2 bg-[#f2f2f2] border-0 rounded-xl shadow-[inset_4px_4px_8px_#a3b1c6,inset_-4px_-4px_8px_#ffffff] focus:shadow-[inset_6px_6px_12px_#a3b1c6,inset_-6px_-6px_12px_#ffffff] outline-none text-gray-700"
+              placeholder="Apellido"
+            />
+          </div>
         </div>
 
         <div className="grid grid-cols-2 gap-4">
@@ -133,15 +176,29 @@ const FormularioCliente = ({ isOpen, onClose, cliente }) => {
 
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Fecha de Ingreso
+            Fecha de Nacimiento
           </label>
           <input
             type="date"
-            name="fechaIngreso"
-            value={formData.fechaIngreso}
+            name="fechaNacimiento"
+            value={formData.fechaNacimiento}
             onChange={handleChange}
             required
             className="w-full px-3 py-2 bg-[#f2f2f2] border-0 rounded-xl shadow-[inset_4px_4px_8px_#a3b1c6,inset_-4px_-4px_8px_#ffffff] focus:shadow-[inset_6px_6px_12px_#a3b1c6,inset_-6px_-6px_12px_#ffffff] outline-none text-gray-700"
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Dirección
+          </label>
+          <input
+            type="text"
+            name="direccion"
+            value={formData.direccion}
+            onChange={handleChange}
+            className="w-full px-3 py-2 bg-[#f2f2f2] border-0 rounded-xl shadow-[inset_4px_4px_8px_#a3b1c6,inset_-4px_-4px_8px_#ffffff] focus:shadow-[inset_6px_6px_12px_#a3b1c6,inset_-6px_-6px_12px_#ffffff] outline-none text-gray-700"
+            placeholder="Dirección completa"
           />
         </div>
 
@@ -155,9 +212,10 @@ const FormularioCliente = ({ isOpen, onClose, cliente }) => {
           </button>
           <button
             type="submit"
-            className="flex-1 px-4 py-2 bg-[#f2f2f2] text-blue-600 font-semibold rounded-xl shadow-[6px_6px_12px_#a3b1c6,-6px_-6px_12px_#ffffff] hover:shadow-[inset_6px_6px_12px_#a3b1c6,inset_-6px_-6px_12px_#ffffff] transition-all"
+            disabled={loading}
+            className="flex-1 px-4 py-2 bg-[#f2f2f2] text-blue-600 font-semibold rounded-xl shadow-[6px_6px_12px_#a3b1c6,-6px_-6px_12px_#ffffff] hover:shadow-[inset_6px_6px_12px_#a3b1c6,inset_-6px_-6px_12px_#ffffff] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Guardar Cambios
+            {loading ? 'Guardando...' : 'Guardar Cambios'}
           </button>
         </div>
       </form>

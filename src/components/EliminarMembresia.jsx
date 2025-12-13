@@ -4,16 +4,21 @@ import { useMembresias } from '../context/MembresiasContext';
 import { toast } from 'sonner';
 
 const EliminarMembresia = ({ isOpen, onClose, membresia }) => {
-  const { eliminarMembresia } = useMembresias();
+  const { eliminarMembresia, loading } = useMembresias();
 
-  const handleEliminar = () => {
+  const handleEliminar = async () => {
     if (membresia) {
       try {
-        eliminarMembresia(membresia.id);
-        toast.success(`Membresía ${membresia.nombre} eliminada exitosamente`);
-        onClose();
+        const resultado = await eliminarMembresia(membresia.id || membresia._id);
+        if (resultado) {
+          toast.success(`Membresía ${membresia.nombre} eliminada exitosamente`);
+          onClose();
+        } else {
+          toast.error('Error al eliminar la membresía');
+        }
       } catch (error) {
         toast.error('Error al eliminar la membresía');
+        console.error('Error:', error);
       }
     }
   };
@@ -48,9 +53,10 @@ const EliminarMembresia = ({ isOpen, onClose, membresia }) => {
           </button>
           <button
             onClick={handleEliminar}
-            className="flex-1 px-4 py-2 bg-[#f2f2f2] text-red-600 font-semibold rounded-xl shadow-[inset_6px_6px_12px_#a3b1c6,inset_-6px_-6px_12px_#ffffff] transition-all"
+            disabled={loading}
+            className="flex-1 px-4 py-2 bg-[#f2f2f2] text-red-600 font-semibold rounded-xl shadow-[6px_6px_12px_#a3b1c6,-6px_-6px_12px_#ffffff] hover:shadow-[inset_6px_6px_12px_#a3b1c6,inset_-6px_-6px_12px_#ffffff] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Confirmar Eliminación
+            {loading ? 'Eliminando...' : 'Confirmar Eliminación'}
           </button>
         </div>
       </div>

@@ -4,16 +4,21 @@ import { useClientes } from '../context/ClientesContext';
 import { toast } from 'sonner';
 
 const EliminarCliente = ({ isOpen, onClose, cliente }) => {
-  const { eliminarCliente } = useClientes();
+  const { eliminarCliente, loading } = useClientes();
 
-  const handleEliminar = () => {
+  const handleEliminar = async () => {
     if (cliente) {
       try {
-        eliminarCliente(cliente.id);
-        toast.success(`Cliente ${cliente.nombre} eliminado exitosamente`);
-        onClose();
+        const resultado = await eliminarCliente(cliente.id || cliente._id);
+        if (resultado) {
+          toast.success(`Cliente ${cliente.nombre} eliminado exitosamente`);
+          onClose();
+        } else {
+          toast.error('Error al eliminar el cliente');
+        }
       } catch (error) {
         toast.error('Error al eliminar el cliente');
+        console.error('Error:', error);
       }
     }
   };
@@ -48,9 +53,10 @@ const EliminarCliente = ({ isOpen, onClose, cliente }) => {
           </button>
           <button
             onClick={handleEliminar}
-            className="flex-1 px-4 py-2 bg-[#f2f2f2] text-red-600 font-semibold rounded-xl shadow-[6px_6px_12px_#a3b1c6,-6px_-6px_12px_#ffffff] hover:shadow-[inset_6px_6px_12px_#a3b1c6,inset_-6px_-6px_12px_#ffffff] transition-all"
+            disabled={loading}
+            className="flex-1 px-4 py-2 bg-[#f2f2f2] text-red-600 font-semibold rounded-xl shadow-[6px_6px_12px_#a3b1c6,-6px_-6px_12px_#ffffff] hover:shadow-[inset_6px_6px_12px_#a3b1c6,inset_-6px_-6px_12px_#ffffff] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Confirmar Eliminación
+            {loading ? 'Eliminando...' : 'Confirmar Eliminación'}
           </button>
         </div>
       </div>
