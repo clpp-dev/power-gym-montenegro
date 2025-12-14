@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-const API_BASE_URL = 'http://localhost:5000/api';
+const API_BASE_URL = 'https://backend-power-gym-montenegro-production.up.railway.app/api';
 
 /**
  * Hook personalizado para hacer peticiones HTTP a la API
